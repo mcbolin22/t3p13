@@ -5,7 +5,7 @@ import './App.css';
 function App() {
 
   const [message, setMessage] = useState("Hello World");
-  const [state2, setState2] = useState("e");
+  const [pokemon, setPokemon] = useState({name: "", sprites: ""});
 
   // useEffect with empty dependency array []
   // depends on nothingm will run when declared
@@ -30,7 +30,14 @@ function App() {
     console.log("Message updated, new value is: " + message)
   }, [message]);
 
+  const getPokemon = async () => {
+    let result = await fetch(`https://pokeapi.co/api/v2/pokemon/${Math.floor(Math.random() * 389) + 1}`).then(response => response.json());
+    setPokemon({name: result.name, sprites: result.sprites.other.showdown.front_default});
+  }
 
+  useEffect(() => {
+    getPokemon();
+  }, []);
   
   return (
     <div className="App">
@@ -41,6 +48,12 @@ function App() {
       </button>
 
       <input type='text' value={message} onChange={(event) => setMessage(event.target.value)} />
+
+      <h1>{pokemon.name}</h1>
+      <img src={pokemon.sprites} alt='URL to the sprite of the Pokemon' />
+      <button onClick={getPokemon}>
+        Get a random Pokemon
+      </button>
     </div>
   );
   
