@@ -16,6 +16,8 @@ function App() {
       <button onClick={() => setMessage(69)}>
         Change Message
       </button>
+
+      <input type='text' value={message} onChange={(event) => setMessage(event.target.value)} />
     </div>
   );
   
